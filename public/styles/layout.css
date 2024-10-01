@@ -1,0 +1,23 @@
+h2 {
+    padding-top: 10rem;
+    padding-bottom: 2.5rem;
+    font-family: "Oswald", sans-serif;
+}
+
+.brand-name {
+    color: green;
+}
+
+.get-price {
+    padding-top: 2.5rem;
+}
+
+p {
+    padding-top: 1rem;
+}
+
+form {
+    padding-right: 40%;
+    padding-left: 40%;
+    padding-bottom: 10%;
+}

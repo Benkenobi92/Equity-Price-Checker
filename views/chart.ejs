@@ -1,0 +1,63 @@
+<%-include("partials/header.ejs")%>
+
+    <div class="row">
+        <div class="col">
+            <div class="pricedata">
+                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                <script>
+                    window.onload = function () {
+                        if (typeof content !== 'undefined' && content) {
+                            console.log('Content:', JSON.stringify(content));
+                        
+                            const interval = "<%= interval %>";
+                            const timeSeriesKey = `Time Series (${interval})`;
+
+                            var dataPoints = [];
+
+                            if (content[timeSeriesKey]) {
+                                for (var time in content[timeSeriesKey]) {
+                                    var data = content[timeSeriesKey][time];
+                                    dataPoints.push({
+                                        x: new Date(time),
+                                        y: [
+                                            parseFloat(data["1. open"]),
+                                            parseFloat(data["2. high"]),
+                                            parseFloat(data["3. low"]),
+                                            parseFloat(data["4. close"])
+                                        ]
+                                    });
+                                }
+                                console.log('Data Points:', dataPoints);
+
+                                var chart = new CanvasJS.Chart("chartContainer", {
+                                    title: {
+                                        text: "Basic Candle Stick Chart"
+                                    },
+                                    zoomEnabled: true,
+                                    axisY: {
+                                        includeZero: false,
+                                        title: "Prices",
+                                        prefix: "$ "
+                                    },
+                                    data: [{
+                                        type: "candlestick",
+                                        dataPoints: dataPoints
+                                    }]
+                                });
+                                chart.render();
+                            } else {
+                                document.getElementById("chartContainer").innerHTML = "<p>No Data Exists</p>";
+                            }
+                        } else {
+                            document.getElementById("chartContainer").innerHTML = "<p>No Data Exists</p>";
+                        }
+                    };
+                </script>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <%- include("partials/footer.ejs") %>
